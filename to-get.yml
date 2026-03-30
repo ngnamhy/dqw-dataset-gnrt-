@@ -1,0 +1,15 @@
+datasets:
+  - name: chess
+    url: https://fimi.uantwerpen.be/data/chess.dat
+  - name: connect 
+    url: https://fimi.uantwerpen.be/data/connect.dat
+  - name: mushroom 
+    url: https://fimi.uantwerpen.be/data/mushroom.dat
+  - name: pumsb
+    url: https://fimi.uantwerpen.be/data/pumsb.dat
+  - name: accidents
+    url: https://fimi.uantwerpen.be/data/accidents.dat
+  - name: korsarak
+    url: https://fimi.uantwerpen.be/data/kosarak.dat
+  - name: bms-pos
+  
