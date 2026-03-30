@@ -45,11 +45,6 @@ Vi du:
 ### 3) `dynamic` (dynamic weight theo batch)
 
 - Vi tri mac dinh: `debug/dynamic/<dataset>_dynamic`
-- Batch size duoc tinh:
-
-$$
-	ext{batch\_size} = \lfloor \sqrt{\text{so\_dong}} \rfloor
-$$
 
 - Moi dong file dynamic co 4 so:
 
