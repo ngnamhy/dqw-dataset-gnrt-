@@ -1,23 +1,23 @@
 # DQW Dataset Generator
 
-Pipeline nay xu ly dataset giao dich (.dat) va sinh them quantity, dynamic, metadata.
+A pipeline that processes transaction datasets (.dat) and generates quantity, dynamic weight, and metadata files.
 
-## Dau vao
+## Input
 
-- Cau hinh trong `to-get.yml`, key `datasets`.
-- Neu dataset co `url`: file `.dat` duoc tai ve `debug/binary/`.
-- Neu dataset khong co `url`: pipeline copy file tu `local/` sang `debug/binary/`.
+- Configuration in `to-get.yml` under key `datasets`.
+- If dataset has `url`: the `.dat` file is downloaded to `debug/binary/`.
+- If dataset has no `url`: the pipeline copies the file from `local/` to `debug/binary/`.
 
-## Y nghia tung loai file
+## File Types and Meanings
 
-### 1) `.dat` (binary transaction database)
+### 1) `.dat` (Binary Transaction Database)
 
-- Vi tri mac dinh: `debug/binary/<dataset>.dat`
-- Moi dong la 1 transaction.
-- Moi so trong dong la 1 item xuat hien trong transaction do.
-- Day la du lieu nhi phan theo item (co/khong co item), chua co so luong.
+- Default location: `debug/binary/<dataset>.dat`
+- Each line represents one transaction.
+- Each number in a line represents an item present in that transaction.
+- Binary format: only indicates item presence/absence, no quantities.
 
-Vi du:
+Example:
 
 ```text
 1 5 9
@@ -25,16 +25,16 @@ Vi du:
 1 3 4 8
 ```
 
-### 2) `quantity` (so luong theo transaction)
+### 2) `quantity` (Per-Transaction Item Quantities)
 
-- Vi tri mac dinh: `debug/quantity/<dataset>_quantity`
-- So dong giong file `.dat`.
-- So cot moi dong cung giong file `.dat` tuong ung.
-- Moi gia tri la so luong ngau nhien trong khoang `[1, 10]`.
+- Default location: `debug/quantity/<dataset>_quantity`
+- Same number of lines as the `.dat` file.
+- Same number of columns per line as the corresponding `.dat` line.
+- Each value is a random quantity in range `[1, 10]`.
 
-Y nghia: cot thu i trong 1 dong cua `quantity` la so luong cua item cot thu i trong dong `.dat` tuong ung.
+Meaning: Column i in a line of `quantity` is the quantity of the item in column i of the corresponding `.dat` line.
 
-Vi du:
+Example:
 
 ```text
 4 1 9
@@ -42,30 +42,39 @@ Vi du:
 3 8 6 1
 ```
 
-### 3) `dynamic` (dynamic weight theo batch)
+### 3) `dynamic` (Dynamic Weight Per Batch)
 
+<<<<<<< Updated upstream
 - Vi tri mac dinh: `debug/dynamic/<dataset>_dynamic`
+=======
+- Default location: `debug/dynamic/<dataset>_dynamic`
+- Batch size is calculated as:
 
-- Moi dong file dynamic co 4 so:
+$$
+\text{batch\_size} = \lfloor \sqrt{\text{line\_count}} \rfloor
+$$
+>>>>>>> Stashed changes
+
+- Each line in the dynamic file has 4 numbers:
 
 ```text
 <item> <start_batch_line> <end_batch_line> <weight>
 ```
 
-- `weight` duoc sinh ngau nhien trong `[1, 10]` cho tung item trong tung batch.
+- `weight` is randomly generated in `[1, 10]` for each item in each batch.
 
-Vi du dong:
+Example line:
 
 ```text
 0 1 20 4
 ```
 
-Nghia la: tu dong 1 den dong 20, item `0` co weight bang `4`.
+Meaning: From line 1 to line 20, item `0` has weight `4`.
 
-### 4) `metadata` (thong tin tom tat)
+### 4) `metadata` (Summary Information)
 
-- Vi tri mac dinh: `debug/metadata/<dataset>_metada.json`
-- Chua cac thong tin chinh cua dataset va cac file sinh ra, gom:
+- Default location: `debug/metadata/<dataset>_metada.json`
+- Contains key information about the dataset and generated files:
 
 - `dataset_name`
 - `file_path`
@@ -74,21 +83,21 @@ Nghia la: tu dong 1 den dong 20, item `0` co weight bang `4`.
 - `batch_size`
 - `line_count`
 - `unique_item_count`
-- `starts_from` (0, 1 hoac null)
-- `is_contiguous` (tap item co lien tuc tu 0/1 den max hay khong)
+- `starts_from` (0, 1, or null)
+- `is_contiguous` (whether items form a contiguous sequence from 0/1 to max)
 - `min_item`
 - `max_item`
 - `missing_item_count`
 - `url`
 - `downloaded`
 
-## Chay pipeline
+## Running the Pipeline
 
 ```bash
 python3 pipeline.py
 ```
 
-Tham so mac dinh:
+Default parameters:
 
 - `--config to-get.yml`
 - `--binary-dir debug/binary`
