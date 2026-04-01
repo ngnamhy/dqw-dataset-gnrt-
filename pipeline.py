@@ -249,7 +249,7 @@ def run_pipeline(
 			"downloaded": downloaded,
 		}
 
-		metadata_path = output_dir / f"{dataset_name}_metada.json"
+		metadata_path = output_dir / f"{dataset_name}_metadata.json"
 		write_metadata(metadata_path, metadata)
 		print(f"Wrote metadata: {metadata_path}")
 		generated += 1

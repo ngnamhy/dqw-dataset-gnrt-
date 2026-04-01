@@ -11,5 +11,7 @@ datasets:
     url: https://fimi.uantwerpen.be/data/accidents.dat
   - name: korsarak
     url: https://fimi.uantwerpen.be/data/kosarak.dat
+  - name: retail
+    url: https://fimi.uantwerpen.be/data/retail.dat
   - name: bms-pos
   
