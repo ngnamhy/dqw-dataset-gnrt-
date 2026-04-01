@@ -14,4 +14,5 @@ datasets:
   - name: retail
     url: https://fimi.uantwerpen.be/data/retail.dat
   - name: bms-pos
+  - name: example
   
